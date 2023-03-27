@@ -22,28 +22,37 @@ extension Dustman {
         func run() throws {
             try ensureUserUID()
 
-            let fileManager = FileManager.default
-
-            try moveFilesToTrash(files: files, with: fileManager)
+            let files = files.map { URL(fileURLWithPath: $0) }
+            try moveFilesToTrash(files: files)
         }
 
-        private func moveFilesToTrash(files: [String], with: FileManager) throws {
+        private func moveFilesToTrash(files: [URL]) throws {
             for file in files {
-                try moveFileToTrash(file: file, with: with)
+                try moveFileToTrash(file: file)
             }
         }
 
-        private func moveFileToTrash(file: String, with: FileManager) throws {
-            let fileUrl = URL(fileURLWithPath: file)
-            guard with.fileExists(atPath: file) else {
-                throw DustmanError.noSuchFileOrDirectory(filePath: fileUrl)
+        private func moveFileToTrash(file: URL) throws {
+            let filePath: String
+            if #available(OSX 13.0, *) {
+                filePath = file.absoluteURL.path()
+            } else {
+                filePath = file.absoluteURL.path
+            }
+
+            guard FileManager.default.fileExists(atPath: filePath) else {
+                throw DustmanError.noSuchFileOrDirectory(fileUrl: file)
             }
 
             if !dry {
-                try with.trashItem(at: fileUrl, resultingItemURL: nil)
+                try moveFileToTrashDarwin(file: file)
             } else {
-                print("ℹ️ Would have moved \(fileUrl.lastPathComponent) to the trash.")
+                print("ℹ️ Would have moved \(filePath) to the trash.")
             }
+        }
+
+        private func moveFileToTrashDarwin(file: URL) throws {
+            try FileManager.default.trashItem(at: file, resultingItemURL: nil)
         }
     }
 }

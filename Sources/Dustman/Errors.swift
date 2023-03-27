@@ -2,7 +2,7 @@ import SecurityFoundation
 
 enum DustmanError: Error {
     case setUIDFailed
-    case noSuchFileOrDirectory(filePath: URL)
+    case noSuchFileOrDirectory(fileUrl: URL)
 }
 
 extension DustmanError: CustomStringConvertible {
@@ -10,8 +10,14 @@ extension DustmanError: CustomStringConvertible {
         switch self {
         case .setUIDFailed:
             return "Failed to ensure the user's UID."
-        case let .noSuchFileOrDirectory(filePath):
-            return "No such file or directory: \(filePath.path)"
+        case let .noSuchFileOrDirectory(fileUrl):
+            let filePathAsString: String
+            if #available(OSX 13.0, *) {
+                filePathAsString = fileUrl.absoluteURL.path()
+            } else {
+                filePathAsString = fileUrl.absoluteURL.path
+            }
+            return "No such file or directory: \(filePathAsString)"
         }
     }
 }
