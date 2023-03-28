@@ -1,22 +1,23 @@
 import Foundation
 
-protocol TrashContextProtocol {
+protocol TrashProviderProtocol {
     func trashFile(file: URL) throws
 }
 
-struct TrashContext: TrashContextProtocol {
-    private let platformSpecificTrashContext: TrashContextProtocol
+struct TrashManager {
+    private let trashProvider: TrashProviderProtocol
 
     init() throws {
+        // TODO: Test if calling this multiple times is a problem.
         try ensureUserUID()
-        platformSpecificTrashContext = try TrashContext.getPlatformSpecificTrashContext()
+        trashProvider = try TrashManager.getPlatformSpecificTrashContext()
     }
 
-    private static func getPlatformSpecificTrashContext() throws -> TrashContextProtocol {
+    private static func getPlatformSpecificTrashContext() throws -> TrashProviderProtocol {
         #if os(macOS)
-            return DarwinTrashContext()
+            return DarwinTrashProvider()
         #else
-            throw DustmanError.platformNotSupported
+            return UnsupportedTrashProvider()
         #endif
     }
 
@@ -42,7 +43,7 @@ struct TrashContext: TrashContextProtocol {
         }
 
         if !dry {
-            try platformSpecificTrashContext.trashFile(file: file)
+            try trashProvider.trashFile(file: file)
         } else {
             print("ℹ️ Would have moved \(filePath) to the trash.")
         }

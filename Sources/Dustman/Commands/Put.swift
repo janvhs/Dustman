@@ -21,8 +21,8 @@ extension Dustman {
 
         func run() throws {
             let files = files.map { URL(fileURLWithPath: $0) }
-            let trashContext = try TrashContext()
-            try trashContext.trashFiles(files: files, dry: dry)
+            let trashManager = try TrashManager()
+            try trashManager.trashFiles(files: files, dry: dry)
         }
     }
 }
