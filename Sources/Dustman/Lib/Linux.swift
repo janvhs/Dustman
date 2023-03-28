@@ -1,6 +1,7 @@
 import Foundation
 
 #if os(Linux)
+    /// The Linux implementation follows the [FreeDesktop Trash Specification](https://specifications.freedesktop.org/trash-spec/trashspec-1.0.html)
     internal struct LinuxTrashProvider: TrashProviderProtocol {
         private let trashDirectory: URL
 
