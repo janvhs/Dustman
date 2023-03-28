@@ -4,11 +4,10 @@ extension URL {
     func absolutePath() -> String {
         let filePath: String
 
-        // TODO: Find the support matrix for this.
         #if os(Linux)
             filePath = absoluteURL.path
         #else
-            // TODO: Check if this can be removed because of the minimum os version set in Package.swift.
+            // TODO: When other platforms are supported, this will need to be updated.
             if #available(OSX 13.0, *) {
                 filePath = absoluteURL.path()
             } else {
