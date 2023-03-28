@@ -20,30 +20,9 @@ extension Dustman {
         #endif
 
         func run() throws {
-            try ensureUserUID()
-
-            let fileManager = FileManager.default
-
-            try moveFilesToTrash(files: files, with: fileManager)
-        }
-
-        private func moveFilesToTrash(files: [String], with: FileManager) throws {
-            for file in files {
-                try moveFileToTrash(file: file, with: with)
-            }
-        }
-
-        private func moveFileToTrash(file: String, with: FileManager) throws {
-            let fileUrl = URL(fileURLWithPath: file)
-            guard with.fileExists(atPath: file) else {
-                throw DustmanError.noSuchFileOrDirectory(filePath: fileUrl)
-            }
-
-            if !dry {
-                try with.trashItem(at: fileUrl, resultingItemURL: nil)
-            } else {
-                print("ℹ️ Would have moved \(fileUrl.lastPathComponent) to the trash.")
-            }
+            let files = files.map { URL(fileURLWithPath: $0) }
+            let trashManager = try TrashManager()
+            try trashManager.trashFiles(files: files, dry: dry)
         }
     }
 }
