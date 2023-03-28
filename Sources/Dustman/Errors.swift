@@ -3,6 +3,7 @@ import SecurityFoundation
 enum DustmanError: Error {
     case setUIDFailed
     case noSuchFileOrDirectory(fileUrl: URL)
+    case platformNotSupported
 }
 
 extension DustmanError: CustomStringConvertible {
@@ -18,6 +19,11 @@ extension DustmanError: CustomStringConvertible {
                 filePathAsString = fileUrl.absoluteURL.path
             }
             return "No such file or directory: \(filePathAsString)"
+        case .platformNotSupported:
+            return """
+            Currently, Dustman does not support your platform.
+            Please consider contributing to Dustman to add support for your platform.
+            """
         }
     }
 }

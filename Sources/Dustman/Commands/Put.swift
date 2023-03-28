@@ -1,5 +1,5 @@
 import ArgumentParser
-import Foundation
+import SecurityFoundation
 
 extension Dustman {
     struct Put: ParsableCommand {
@@ -20,39 +20,9 @@ extension Dustman {
         #endif
 
         func run() throws {
-            try ensureUserUID()
-
             let files = files.map { URL(fileURLWithPath: $0) }
-            try moveFilesToTrash(files: files)
-        }
-
-        private func moveFilesToTrash(files: [URL]) throws {
-            for file in files {
-                try moveFileToTrash(file: file)
-            }
-        }
-
-        private func moveFileToTrash(file: URL) throws {
-            let filePath: String
-            if #available(OSX 13.0, *) {
-                filePath = file.absoluteURL.path()
-            } else {
-                filePath = file.absoluteURL.path
-            }
-
-            guard FileManager.default.fileExists(atPath: filePath) else {
-                throw DustmanError.noSuchFileOrDirectory(fileUrl: file)
-            }
-
-            if !dry {
-                try moveFileToTrashDarwin(file: file)
-            } else {
-                print("ℹ️ Would have moved \(filePath) to the trash.")
-            }
-        }
-
-        private func moveFileToTrashDarwin(file: URL) throws {
-            try FileManager.default.trashItem(at: file, resultingItemURL: nil)
+            let trashContext = try TrashContext()
+            try trashContext.trashFiles(files: files, dry: dry)
         }
     }
 }
