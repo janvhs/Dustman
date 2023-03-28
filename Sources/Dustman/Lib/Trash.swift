@@ -14,6 +14,7 @@ struct TrashManager {
     }
 
     private static func getPlatformSpecificTrashContext() throws -> TrashProviderProtocol {
+        // TODO: Update this when new platforms are supported.
         #if os(macOS)
             return DarwinTrashProvider()
         #else
