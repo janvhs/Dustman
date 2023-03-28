@@ -1,5 +1,5 @@
 import ArgumentParser
-import SecurityFoundation
+import Foundation
 
 extension Dustman {
     struct Put: ParsableCommand {

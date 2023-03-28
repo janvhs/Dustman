@@ -1,4 +1,4 @@
-import SecurityFoundation
+import Foundation
 
 protocol TrashContextProtocol {
     func trashFile(file: URL) throws
@@ -35,12 +35,7 @@ struct TrashContext: TrashContextProtocol {
     }
 
     func trashFile(file: URL, dry: Bool) throws {
-        let filePath: String
-        if #available(OSX 13.0, *) {
-            filePath = file.absoluteURL.path()
-        } else {
-            filePath = file.absoluteURL.path
-        }
+        let filePath = file.absolutePath()
 
         guard FileManager.default.fileExists(atPath: filePath) else {
             throw DustmanError.noSuchFileOrDirectory(fileUrl: file)
