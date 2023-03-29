@@ -1,7 +1,6 @@
 import DustbinCore
 import Foundation
 
-// TODO: There has to be a better way to conditionally compile this entire file.
 public struct TrashProvider: TrashProviderProtocol {
     public init() {}
 

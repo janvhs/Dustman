@@ -23,7 +23,7 @@ public struct TrashManager {
     }
 
     public func trashFile(file: URL, dry: Bool = false) throws {
-        let filePath = file.absolutePath()
+        let filePath = file.canonicalizePath()
 
         guard FileManager.default.fileExists(atPath: filePath) else {
             throw DustbinError.noSuchFileOrDirectory(fileUrl: file)
