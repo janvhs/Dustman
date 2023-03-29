@@ -1,11 +1,11 @@
 format:
     @swiftformat .
 
-build:
-    swift build
+build-dev:
+    swift build --product Dustman
 
-build-r:
-    swift build -c release
+build:
+    swift build -c release --product Dustman
 
 run:
     @rm -rf ./delete_me
@@ -13,7 +13,7 @@ run:
     @touch ./delete_me/test.txt
     swift run Dustman put ./delete_me/test.txt
 
-run-r:
+run-release:
     @rm -rf ./delete_me
     @mkdir ./delete_me
     @touch ./delete_me/test.txt
