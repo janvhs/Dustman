@@ -6,4 +6,5 @@ import Foundation
 public enum DustbinError: Error {
     case setUIDFailed
     case noSuchFileOrDirectory(fileUrl: URL)
+    case fileNotDeletable(fileUrl: URL)
 }
