@@ -11,10 +11,6 @@ public struct TrashManager {
     private let trashProvider: TrashProviderProtocol
 
     public init() throws {
-        // INFO: This will prevent the recycling of protected files,
-        //       but it will also ensue the file will not end up in a
-        //       place where it can be deleted completely.
-        try ensureUserUID()
         trashProvider = TrashProvider()
     }
 
@@ -32,9 +28,9 @@ public struct TrashManager {
         }
 
         // TODO: This seems to have strange behaviour. Maybe I should just try to delete the file and catch the error.
-        guard FileManager.default.isDeletableFile(atPath: filePath) else {
-            throw DustbinError.fileNotDeletable(fileUrl: file)
-        }
+        // guard FileManager.default.isDeletableFile(atPath: filePath) else {
+        //     throw DustbinError.fileNotDeletable(fileUrl: file)
+        // }
 
         if !dry {
             try trashProvider.trashFile(file: file)
