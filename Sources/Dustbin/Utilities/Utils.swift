@@ -1,3 +1,4 @@
+import DustbinCore
 import Foundation
 
 func ensureUserUID() throws {
@@ -9,6 +10,6 @@ func ensureUserUID() throws {
 
     let result = setuid(sudoUID)
     guard result == 0 else {
-        throw DustmanError.setUIDFailed
+        throw DustbinError.setUIDFailed
     }
 }

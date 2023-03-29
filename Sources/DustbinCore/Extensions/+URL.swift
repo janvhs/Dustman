@@ -1,6 +1,7 @@
 import Foundation
 
-extension URL {
+// TODO: Move this out of core into the platform-specific modules.
+public extension URL {
     func absolutePath() -> String {
         let filePath: String
 

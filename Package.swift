@@ -5,6 +5,21 @@ import PackageDescription
 
 let package = Package(
     name: "Dustman",
+    platforms: [
+        .macOS(.v11),
+    ],
+    products: [
+        // Products define the executables and libraries produced by a package,
+        // and make them visible to other packages.
+        .executable(
+            name: "Dustman",
+            targets: ["Dustman"]
+        ),
+        .library(
+            name: "Dustbin",
+            targets: ["Dustbin"]
+        ),
+    ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
@@ -17,8 +32,33 @@ let package = Package(
             name: "Dustman",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
+                .target(name: "Dustbin"),
             ]
         ),
+        .target(
+            name: "DustbinCore"
+        ),
+        .target(
+            name: "DustbinDarwin",
+            dependencies: [
+                .target(name: "DustbinCore"),
+            ]
+        ),
+        .target(
+            name: "DustbinLinux",
+            dependencies: [
+                .target(name: "DustbinCore"),
+            ]
+        ),
+        .target(
+            name: "Dustbin",
+            dependencies: [
+                .target(name: "DustbinCore"),
+                .target(name: "DustbinDarwin", condition: .when(platforms: [.macOS])),
+                .target(name: "DustbinLinux", condition: .when(platforms: [.linux])),
+            ]
+        ),
+        // TODO: Add tests for all the targets.
         .testTarget(
             name: "DustmanTests",
             dependencies: ["Dustman"]
