@@ -23,6 +23,13 @@ It is not a one-to-one drop in for `rm` and for now, only supports Darwin.
 I would not recommend to alias `rm` to `Dustman` as the `Dustman` CLI is not flag-compatible to `rm`.
 Therefore an alias could break some shell-scripts. Instead alias it to `trash` or just use it as `Dustman`.
 
+## Current Limitations
+
+Deleting files whose deletion would require root privileges is not supported,
+because `Dustman` always reverts the `UID` to the user's own `UID`.
+Otherwise, the deleted files would end up in the root's trash and therefore are not
+recoverable by the user.
+
 ## One last thing
 
 You're welcome to contribute to this project.
