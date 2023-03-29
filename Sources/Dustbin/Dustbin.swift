@@ -11,7 +11,6 @@ public struct TrashManager {
     private let trashProvider: TrashProviderProtocol
 
     public init() throws {
-        // TODO: Test if calling this multiple times is a problem.
         try ensureUserUID()
         trashProvider = TrashProvider()
     }
