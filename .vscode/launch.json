@@ -17,24 +17,6 @@
       "args": [],
       "cwd": "${workspaceFolder:Dustman}",
       "preLaunchTask": "swift: Build Release Dustman"
-    },
-    {
-      "type": "lldb",
-      "request": "launch",
-      "name": "Debug dm",
-      "program": "${workspaceFolder:Dustman}/.build/debug/dm",
-      "args": [],
-      "cwd": "${workspaceFolder:Dustman}",
-      "preLaunchTask": "swift: Build Debug dm"
-    },
-    {
-      "type": "lldb",
-      "request": "launch",
-      "name": "Release dm",
-      "program": "${workspaceFolder:Dustman}/.build/release/dm",
-      "args": [],
-      "cwd": "${workspaceFolder:Dustman}",
-      "preLaunchTask": "swift: Build Release dm"
     }
   ]
 }
