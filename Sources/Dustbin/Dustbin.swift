@@ -27,11 +27,6 @@ public struct TrashManager {
             throw DustbinError.noSuchFileOrDirectory(fileUrl: file)
         }
 
-        // TODO: This seems to have strange behaviour. Maybe I should just try to delete the file and catch the error.
-        // guard FileManager.default.isDeletableFile(atPath: filePath) else {
-        //     throw DustbinError.fileNotDeletable(fileUrl: file)
-        // }
-
         if !dry {
             try trashProvider.trashFile(file: file)
         } else {
