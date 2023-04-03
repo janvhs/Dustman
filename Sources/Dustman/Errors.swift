@@ -38,6 +38,31 @@ extension DustbinError: CustomStringConvertible {
             File owner:         \(fileOwner ?? "unknown")
             File group:         \(fileGroup ?? "unknown")
             """
+        case let .appleScriptNotCompilable(source):
+            return """
+            Can not compile the following AppleScript
+
+            \(source)
+            """
+        case let .appleScriptError(errorDict):
+            return """
+            Unknown AppleScript error:
+
+            \(errorDict)
+            """
+        case let .appleScriptAppNotAllowed(appName, message):
+            return """
+            \(message ?? "Apple Script authorization")
+
+            Please do the following to fix the error:
+
+            1. Open System Preferences
+            2. Navigate to Security & Privacy
+            3. Under the section Privacy, click on Automation
+            4. Find the App you're currently using and click on the carat (the triangle)
+            5. Check \(appName ?? "Unknown but probably Finder")
+            6. Try again
+            """
         }
     }
 }
