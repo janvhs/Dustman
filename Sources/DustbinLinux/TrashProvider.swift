@@ -1,5 +1,14 @@
 import DustbinCore
 import Foundation
+import Glibc
+
+// TODO: Instead of implementing this myself, I could use gio (C) or kio (C++)
+// REFERENCES: https://wiki.archlinux.org/title/Trash_management
+// KDE REFERENCE:
+// - https://github.com/KDE/kde-cli-tools/blob/master/kioclient/kioclient.cpp#L472
+// - https://github.com/KDE/kde-cli-tools/blob/master/kioclient/kioclient.cpp#L312
+// GNOME REFERENCE:
+// - https: // gitlab.gnome.org/GNOME/glib/-/blob/main/gio/gio-tool-trash.c#L269
 
 /// The Linux implementation follows the [FreeDesktop Trash Specification](https://specifications.freedesktop.org/trash-spec/trashspec-1.0.html)
 public struct TrashProvider: TrashProviderProtocol {
@@ -9,8 +18,9 @@ public struct TrashProvider: TrashProviderProtocol {
         trashDirectory = TrashProvider.getTrashDirectory()
     }
 
-    public func trashFile(file _: URL) throws {
-        // TODO: Implement this.
+    public func trashFile(file: URL) throws {
+        // TODO: Use g_file_trash() from gio
+        let filePath = file.canonicalizePath()
     }
 
     private static func getTrashDirectory() -> URL {
