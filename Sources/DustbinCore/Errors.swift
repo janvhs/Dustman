@@ -6,6 +6,7 @@ import Foundation
 public enum DustbinError: Error {
     case setUIDFailed
     case noSuchFileOrDirectory(fileUrl: URL)
+    // TODO: Currently unused. Remove this
     case fileNotDeletable(fileUrl: URL)
     // Darwin-specific
     case appleScriptNotCompilable(source: String)
